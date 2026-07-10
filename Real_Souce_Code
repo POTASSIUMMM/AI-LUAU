@@ -13,25 +13,23 @@ local _0x9 = false
 local _0x1A = false
 local _0x2B = false
 local _0x2C = false
-local _0x32 = false
-local _0x33 = 15
 
 local _0xA = _0x5.Character or _0x5.CharacterAdded:Wait()
 local _0xB = _0xA:WaitForChild("Humanoid")
 local _0xC = _0xA:WaitForChild("HumanoidRootPart")
 
 local _0xD = Rayfield:CreateWindow({
-   Name = "Main Panel",
+   Name = "UE hub",
    LoadingTitle = "Loading Script",
-   LoadingSubtitle = "by UE lua script.",
+   LoadingSubtitle = "by UE",
    ConfigurationSaving = { Enabled = false },
    Discord = { Enabled = false },
    KeySystem = false
 })
 
-local _0xE = _0xD:CreateTab("Main Controls", nil)
-local _0x1B = _0xD:CreateTab("ESP Controls", nil)
-local _0x24 = _0xD:CreateTab("Target Controls", nil)
+local _0xE = _0xD:CreateTab("Main Panel", nil)
+local _0x1B = _0xD:CreateTab("ESP", nil)
+local _0x24 = _0xD:CreateTab("Target hook", nil)
 
 local _0x25 = "Select Player"
 
@@ -102,27 +100,6 @@ _0xE:CreateInput({
       local _0x12 = tonumber(_0x11)
       if _0x12 then
          _0x7 = _0x12
-      end
-   end
-})
-
-_0xE:CreateToggle({
-   Name = "Enable Kill Aura",
-   CurrentValue = false,
-   Flag = "KillAuraToggle",
-   Callback = function(_0x10)
-      _0x32 = _0x10
-   end,
-})
-
-_0xE:CreateInput({
-   Name = "Kill Aura Range",
-   PlaceholderText = "Default is 15 studs",
-   RemoveTextAfterFocusLost = false,
-   Callback = function(_0x11)
-      local _0x12 = tonumber(_0x11)
-      if _0x12 then
-         _0x33 = _0x12
       end
    end,
 })
@@ -237,12 +214,6 @@ _0x3.InputBegan:Connect(function(_0x15, _0x16)
 end)
 
 _0x2.RenderStepped:Connect(function()
-   if not _0x5.Character or not _0x5.Character:Parent() then
-      _0xA = _0x5.Character or _0x5.CharacterAdded:Wait()
-      _0xB = _0xA:WaitForChild("Humanoid")
-      _0xC = _0xA:WaitForChild("HumanoidRootPart")
-   end
-
    if _0xB and _0x9 and not _0x8 then
       if _0xB.WalkSpeed ~= _0x6 then
          _0xB.WalkSpeed = _0x6
@@ -308,21 +279,6 @@ _0x2.RenderStepped:Connect(function()
          local distance = (_0xC.Position - tHead.Position).Magnitude
          if distance <= 100 then
             workspace.CurrentCamera.CFrame = CFrame.new(workspace.CurrentCamera.CFrame.Position, tHead.Position)
-         end
-      end
-   end
-
-   if _0x32 and _0xC then
-      for _, _0x1D in pairs(_0x1:GetPlayers()) do
-         if _0x1D ~= _0x5 and _0x1D.Character then
-            local enemyRoot = _0x1D.Character:FindFirstChild("HumanoidRootPart")
-            local enemyHum = _0x1D.Character:FindFirstChild("Humanoid")
-            if enemyRoot and enemyHum and enemyHum.Health > 0 then
-               local dist = (_0xC.Position - enemyRoot.Position).Magnitude
-               if dist <= _0x33 then
-                  enemyHum:TakeDamage(50)
-               end
-            end
          end
       end
    end
