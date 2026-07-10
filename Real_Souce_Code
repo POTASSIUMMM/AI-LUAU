@@ -1,0 +1,329 @@
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+
+local _0x1 = game:GetService("Players")
+local _0x2 = game:GetService("RunService")
+local _0x3 = game:GetService("UserInputService")
+local _0x4 = game:GetService("CoreGui")
+local _0x5 = _0x1.LocalPlayer
+
+local _0x6 = 16
+local _0x7 = 200
+local _0x8 = false
+local _0x9 = false
+local _0x1A = false
+local _0x2B = false
+local _0x2C = false
+local _0x32 = false
+local _0x33 = 15
+
+local _0xA = _0x5.Character or _0x5.CharacterAdded:Wait()
+local _0xB = _0xA:WaitForChild("Humanoid")
+local _0xC = _0xA:WaitForChild("HumanoidRootPart")
+
+local _0xD = Rayfield:CreateWindow({
+   Name = "Main Panel",
+   LoadingTitle = "Loading Script",
+   LoadingSubtitle = "by UE lua script.",
+   ConfigurationSaving = { Enabled = false },
+   Discord = { Enabled = false },
+   KeySystem = false
+})
+
+local _0xE = _0xD:CreateTab("Main Controls", nil)
+local _0x1B = _0xD:CreateTab("ESP Controls", nil)
+local _0x24 = _0xD:CreateTab("Target Controls", nil)
+
+local _0x25 = "Select Player"
+
+_0x5.CharacterAdded:Connect(function(_0xF)
+   _0xA = _0xF
+   _0xB = _0xF:WaitForChild("Humanoid")
+   _0xC = _0xF:WaitForChild("HumanoidRootPart")
+   if _0x9 then
+      _0xB.WalkSpeed = _0x6
+   else
+      _0xB.WalkSpeed = 16
+   end
+end)
+
+_0xE:CreateToggle({
+   Name = "Enable Speed Boost",
+   CurrentValue = false,
+   Flag = "SpeedToggle",
+   Callback = function(_0x10)
+      _0x9 = _0x10
+      if _0xB then
+         if _0x9 then
+            _0xB.WalkSpeed = _0x6
+         else
+            _0xB.WalkSpeed = 16
+         end
+      end
+   end,
+})
+
+_0xE:CreateInput({
+   Name = "Speed Value",
+   PlaceholderText = "Type Here.",
+   RemoveTextAfterFocusLost = false,
+   Callback = function(_0x11)
+      local _0x12 = tonumber(_0x11)
+      if _0x12 then
+         _0x6 = _0x12
+         if _0xB and _0x9 then
+            _0xB.WalkSpeed = _0x6
+         end
+      end
+   end,
+})
+
+_0xE:CreateToggle({
+   Name = "Enable Fly",
+   CurrentValue = false,
+   Flag = "FlyToggle",
+   Callback = function(_0x10)
+      _0x8 = _0x10
+      if not _0x8 then
+         if _0xC then
+            local _0x13 = _0xC:FindFirstChild("FlyBodyPosition")
+            local _0x14 = _0xC:FindFirstChild("FlyBodyGyro")
+            if _0x13 then _0x13:Destroy() end
+            if _0x14 then _0x14:Destroy() end
+         end
+      end
+   end,
+})
+
+_0xE:CreateInput({
+   Name = "Fly Speed Value",
+   PlaceholderText = "Type Here.",
+   RemoveTextAfterFocusLost = false,
+   Callback = function(_0x11)
+      local _0x12 = tonumber(_0x11)
+      if _0x12 then
+         _0x7 = _0x12
+      end
+   end
+})
+
+_0xE:CreateToggle({
+   Name = "Enable Kill Aura",
+   CurrentValue = false,
+   Flag = "KillAuraToggle",
+   Callback = function(_0x10)
+      _0x32 = _0x10
+   end,
+})
+
+_0xE:CreateInput({
+   Name = "Kill Aura Range",
+   PlaceholderText = "Default is 15 studs",
+   RemoveTextAfterFocusLost = false,
+   Callback = function(_0x11)
+      local _0x12 = tonumber(_0x11)
+      if _0x12 then
+         _0x33 = _0x12
+      end
+   end,
+})
+
+local function _0x1C(_0x1D)
+   if _0x1D == _0x5 then return end
+   local function _0x1E(_0x1F)
+      if not _0x1A then return end
+      local _0x20 = _0x1F:FindFirstChild("ESPHighlight")
+      if not _0x20 then
+         _0x20 = Instance.new("Highlight")
+         _0x20.Name = "ESPHighlight"
+         _0x20.Parent = _0x1F
+      end
+      _0x20.FillColor = Color3.fromRGB(48, 252, 255)
+      _0x20.OutlineColor = Color3.fromRGB(255, 0, 0)
+      _0x20.FillTransparency = 0.5
+      _0x20.OutlineTransparency = 0
+      _0x20.Adornee = _0x1F
+   end
+   if _0x1D.Character then _0x1E(_0x1D.Character) end
+   _0x1D.CharacterAdded:Connect(_0x1E)
+end
+
+local function _0x21()
+   for _, _0x1D in pairs(_0x1:GetPlayers()) do
+      if _0x1D.Character then
+         local _0x22 = _0x1D.Character:FindFirstChild("ESPHighlight")
+         if _0x22 then _0x22:Destroy() end
+      end
+   end
+end
+
+_0x1B:CreateToggle({
+   Name = "Enable Player Highlight ESP",
+   CurrentValue = false,
+   Flag = "EspToggle",
+   Callback = function(_0x10)
+      _0x1A = _0x10
+      if _0x1A then
+         for _, _0x1D in pairs(_0x1:GetPlayers()) do
+            _0x1C(_0x1D)
+         end
+      else
+         _0x21()
+      end
+   end,
+})
+
+_0x1.PlayerAdded:Connect(_0x1C)
+
+local function _0x26()
+   local _0x27 = {}
+   for _, p in pairs(_0x1:GetPlayers()) do
+      if p ~= _0x5 then
+         table.insert(_0x27, p.Name)
+      end
+   end
+   return _0x27
+end
+
+local _0x28 = _0x24:CreateDropdown({
+   Name = "Select Player",
+   Options = _0x26(),
+   CurrentOption = "",
+   MultipleOptions = false,
+   Flag = "TargetPlayerDropdown",
+   Callback = function(_0x29)
+      _0x25 = _0x29[1] or _0x29
+   end,
+})
+
+_0x24:CreateButton({
+   Name = "Refresh Player List",
+   Callback = function()
+      _0x28:Refresh(_0x26())
+   end,
+})
+
+_0x24:CreateToggle({
+   Name = "Enable Strafe (Stick to Player)",
+   CurrentValue = false,
+   Flag = "StrafeToggle",
+   Callback = function(_0x10)
+      _0x2B = _0x10
+   end,
+})
+
+_0x24:CreateToggle({
+   Name = "Enable Aim Bot (Head lock within 100 studs)",
+   CurrentValue = false,
+   Flag = "AimbotToggle",
+   Callback = function(_0x10)
+      _0x2C = _0x10
+   end,
+})
+
+_0x3.InputBegan:Connect(function(_0x15, _0x16)
+   if _0x16 then return end
+   
+   if _0x15.KeyCode == Enum.KeyCode.M then
+      local _0x17 = _0x4:FindFirstChild("Rayfield")
+      if _0x17 then
+         _0x17.Enabled = false
+      end
+   elseif _0x15.KeyCode == Enum.KeyCode.L then
+      local _0x17 = _0x4:FindFirstChild("Rayfield")
+      if _0x17 then
+         _0x17.Enabled = true
+      end
+   end
+end)
+
+_0x2.RenderStepped:Connect(function()
+   if not _0x5.Character or not _0x5.Character:Parent() then
+      _0xA = _0x5.Character or _0x5.CharacterAdded:Wait()
+      _0xB = _0xA:WaitForChild("Humanoid")
+      _0xC = _0xA:WaitForChild("HumanoidRootPart")
+   end
+
+   if _0xB and _0x9 and not _0x8 then
+      if _0xB.WalkSpeed ~= _0x6 then
+         _0xB.WalkSpeed = _0x6
+      end
+   elseif _0xB and not _0x9 and not _0x8 then
+      if _0xB.WalkSpeed ~= 16 then
+         _0xB.WalkSpeed = 16
+      end
+   end
+   
+   if _0x8 and _0xC and _0xA and _0xA.Parent then
+      local _0x13 = _0xC:FindFirstChild("FlyBodyPosition") or Instance.new("BodyPosition", _0xC)
+      local _0x14 = _0xC:FindFirstChild("FlyBodyGyro") or Instance.new("BodyGyro", _0xC)
+      
+      _0x13.Name = "FlyBodyPosition"
+      _0x13.maxForce = Vector3.new(100000, 100000, 100000)
+      _0x14.Name = "FlyBodyGyro"
+      _0x14.maxTorque = Vector3.new(100000, 100000, 100000)
+      _0x14.cframe = workspace.CurrentCamera.CFrame
+      
+      local _0x18 = Vector3.new(0, 0, 0)
+      
+      if _0x3:IsKeyDown(Enum.KeyCode.W) then
+         _0x18 = _0x18 + workspace.CurrentCamera.CFrame.LookVector
+      end
+      if _0x3:IsKeyDown(Enum.KeyCode.S) then
+         _0x18 = _0x18 - workspace.CurrentCamera.CFrame.LookVector
+      end
+      if _0x3:IsKeyDown(Enum.KeyCode.A) then
+         _0x18 = _0x18 - workspace.CurrentCamera.CFrame.RightVector
+      end
+      if _0x3:IsKeyDown(Enum.KeyCode.D) then
+         _0x18 = _0x18 + workspace.CurrentCamera.CFrame.RightVector
+      end
+      if _0x3:IsKeyDown(Enum.KeyCode.Space) then
+         _0x18 = _0x18 + Vector3.new(0, 1, 0)
+      end
+      if _0x3:IsKeyDown(Enum.KeyCode.LeftControl) then
+         _0x18 = _0x18 - Vector3.new(0, 1, 0)
+      end
+      
+      _0x13.position = _0xC.Position + (_0x18 * _0x7 * 0.016)
+   end
+   
+   if _0x1A then
+      for _, _0x1D in pairs(_0x1:GetPlayers()) do
+         if _0x1D ~= _0x5 and _0x1D.Character then
+            _0x1C(_0x1D)
+         end
+      end
+   end
+
+   local target = _0x1:FindFirstChild(_0x25)
+   if target and target.Character then
+      local tRoot = target.Character:FindFirstChild("HumanoidRootPart")
+      local tHead = target.Character:FindFirstChild("Head")
+      
+      if _0x2B and tRoot and _0xC then
+         _0xC.CFrame = tRoot.CFrame * CFrame.new(0, 0, 2)
+      end
+      
+      if _0x2C and tHead and _0xC then
+         local distance = (_0xC.Position - tHead.Position).Magnitude
+         if distance <= 100 then
+            workspace.CurrentCamera.CFrame = CFrame.new(workspace.CurrentCamera.CFrame.Position, tHead.Position)
+         end
+      end
+   end
+
+   if _0x32 and _0xC then
+      for _, _0x1D in pairs(_0x1:GetPlayers()) do
+         if _0x1D ~= _0x5 and _0x1D.Character then
+            local enemyRoot = _0x1D.Character:FindFirstChild("HumanoidRootPart")
+            local enemyHum = _0x1D.Character:FindFirstChild("Humanoid")
+            if enemyRoot and enemyHum and enemyHum.Health > 0 then
+               local dist = (_0xC.Position - enemyRoot.Position).Magnitude
+               if dist <= _0x33 then
+                  enemyHum:TakeDamage(50)
+               end
+            end
+         end
+      end
+   end
+end)
